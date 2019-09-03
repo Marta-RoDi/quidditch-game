@@ -4,7 +4,7 @@ class Player {
     this.h = 166;
     this.ctx = ctx;
 
-    this.x = windowWidth2 - 400;
+    this.x = windowWidth2 - 650;
     this.y = windowHeight2 - 83;
 
     this.life = lifeParam;
@@ -45,7 +45,6 @@ class Player {
     this.quaffles.forEach(function (quaffle) {
       quaffle.drawQuaffle();
       quaffle.moveQuaffle();
-
     });
   }
 
@@ -63,12 +62,21 @@ class Player {
   shootquaffle() {
     var quaffle = new Quaffle(windowWidth, windowHeight, ctx)
     this.quaffles.push(quaffle);
-  }
-  
 
+    // this.cleanQuaffle();
+  }
+
+  cleanQuaffle() {
+    this.quaffles.forEach( (quaffle)=> {
+      if (quaffle.x >= windowWidth) {
+        this.quaffles.splice(0, 1);
+      }
+    });
+  }
 
   movePlayer() {
 
+    //moverse
     document.addEventListener('keydown', (e) => {
       e.preventDefault();
       if (e.keyCode === 38) {
@@ -77,9 +85,9 @@ class Player {
       if (e.keyCode === 40) {
         this.keyState.keyDown = true;
       }
-      if (e.keyCode === 32) {
+      /*if (e.keyCode === 32) {
         this.shootquaffle();
-      }
+      }*/
     })
     document.addEventListener('keyup', (e) => {
       e.preventDefault();
@@ -89,7 +97,7 @@ class Player {
       if (e.keyCode === 40) {
         this.keyState.keyDown = false;
       }
-     
+
     })
 
 
@@ -99,6 +107,15 @@ class Player {
     if (this.keyState.keyDown && this.y < windowHeight - 180) {
       this.y += speed
     }
+
+    //Disparar
+    document.onkeydown = function (event) {
+      switch (event.keyCode) {
+          case 32:
+          this.shootquaffle();
+          break;
+      }
+    }.bind(this)
   }
 
 }
