@@ -21,10 +21,6 @@ class Hoops {
       this.w,
       this.h
     );
-
-    /*do {
-      this.y2
-    } while (this.y2 >= this.y - this.h && this.y2 <= this.y + this.h)*/
   }
 
   moveHoop() {

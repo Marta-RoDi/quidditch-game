@@ -22,6 +22,11 @@ function randomInt(min, max) {
 //Variable Aros
 let hoops = [];
 
+
+//Variable Bludger
+let bludgersTop = [];
+let bludgersDown = [];
+
 //Variable contador
 let counter = 0;
 
@@ -39,7 +44,8 @@ function startGame() {
 function resetGame() {
   background = new Background(windowWidth, windowHeight, ctx);
   player = new Player(windowWidth, windowHeight, ctx);
-  //hoop = new Hoops(windowWidth, windowHeight, ctx)
+  //bludgerTop = new BludgerTop(windowWidth, windowHeight, ctx);
+  //bludgerDown = new BludgerDown(windowWidth, windowHeight, ctx);
 }
 
 // Set interval
@@ -47,8 +53,17 @@ let intervalID = setInterval(() => {
   ctx.clearRect(0, 0, windowWidth, windowHeight);
   counter++
 
-  if (counter % 300 === 0) {
+  //generar aros
+  if (counter % 500 === 0) {
     generateHoops();
+  }
+
+  //generar bludgers
+  if (counter % 250 === 0) {
+    generateBludgersTop();
+  }
+  if (counter % 250 === 0) {
+    generateBludgersDown();
   }
 
   //pintar y mover
@@ -58,13 +73,27 @@ let intervalID = setInterval(() => {
   //colisiones
   checkColisionHoopsQuaffle()
   checkColisionHoopsHarry()
+  checkColisionBludgerTopHarry()
+  checkColisionBludgerDownHarry()
 
   //clear
   clearHoops()
   player.cleanQuaffle();
+  clearBludgerTop();
+  clearBludgerDown();
 
 
 }, 1000 / 60);
+
+//Función generar Bludger
+function generateBludgersTop() {
+  bludgersTop.push(new BludgerTop(ctx));
+}
+
+function generateBludgersDown() {
+  bludgersDown.push(new BludgerDown(ctx));
+}
+
 
 //Función generar aros
 function generateHoops() {
@@ -100,18 +129,67 @@ function checkColisionHoopsHarry() {
       hoops[i].y + hoops[i].h > player.y) {
 
       if (hoops[i].colosionHarry) {
-        console.log("Harry se ha chocado");
+        console.log("Harry se ha chocado con un aro");
       }
       hoops[i].colosionHarry = false;
     }
   }
 }
 
-//Función generar aros
+//Funcion colosión harry con Bludgers
+function checkColisionBludgerTopHarry() {
+  for (var i = 0; i < bludgersTop.length; i++) {
+    if (
+      bludgersTop[i].x < player.x + player.w &&
+      bludgersTop[i].x + bludgersTop[i].w > player.x &&
+      bludgersTop[i].y < player.y + player.h &&
+      bludgersTop[i].y + bludgersTop[i].h > player.y) {
+
+      if (bludgersTop[i].colosionHarry) {
+        console.log("Harry se ha chocado con una bludger top");
+      }
+      bludgersTop[i].colosionHarry = false;
+    }
+  }
+}
+
+function checkColisionBludgerDownHarry() {
+  for (var i = 0; i < bludgersDown.length; i++) {
+    if (
+      bludgersDown[i].x < player.x + player.w &&
+      bludgersDown[i].x + bludgersDown[i].w > player.x &&
+      bludgersDown[i].y < player.y + player.h &&
+      bludgersDown[i].y + bludgersDown[i].h > player.y) {
+
+      if (bludgersDown[i].colosionHarry) {
+        console.log("Harry se ha chocado con una bludger Down");
+      }
+      bludgersDown[i].colosionHarry = false;
+    }
+  }
+}
+
+//Función limpiar aros
 function clearHoops() {
   hoops.forEach((hoop) => {
-    if (hoop.x <= 0) {
+    if (hoop.x <= -200) {
       hoops.splice(0, 1);
+    }
+  });
+}
+
+//Funciones limpiar Bludgers
+function clearBludgerTop() {
+  bludgersTop.forEach((bludgerTop) => {
+    if (bludgerTop.y >= windowHeight) {
+      bludgersTop.splice(0, 1);
+    }
+  });
+}
+function clearBludgerDown() {
+  bludgersDown.forEach((bludgerDown) => {
+    if (bludgerDown.y <= 0) {
+      bludgersDown.splice(0, 1);
     }
   });
 }
@@ -123,6 +201,13 @@ function drawAll() {
   hoops.forEach(function (hoop) {
     hoop.drawHoop();
   });
+  bludgersTop.forEach(function (bludgerTop) {
+    bludgerTop.drawBludgerTop();
+  });
+  bludgersDown.forEach(function (bludgerDown) {
+    bludgerDown.drawBludgerDown();
+  });
+
 }
 
 
@@ -133,4 +218,11 @@ function moveAll() {
   hoops.forEach(function (hoop) {
     hoop.moveHoop();
   });
+  bludgersTop.forEach(function (bludgerTop) {
+    bludgerTop.moveBludgerTop();
+  });
+  bludgersDown.forEach(function (bludgerDown) {
+    bludgerDown.moveBludgerDown();
+  });
+
 }
