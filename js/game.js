@@ -56,7 +56,8 @@ let intervalID = setInterval(() => {
   moveAll()
 
   //colisiones
-  checkColisionHoops()
+  checkColisionHoopsQuaffle()
+  checkColisionHoopsHarry()
 
   //clear
   clearHoops()
@@ -70,17 +71,17 @@ function generateHoops() {
   hoops.push(new Hoops(ctx));
 }
 
-//Funcion colosión aros
-function checkColisionHoops() {
+//Funcion colosión aros con quaffle
+function checkColisionHoopsQuaffle() {
   for (var i = 0; i < player.quaffles.length; i++) {
-    for(var j = 0; j < hoops.length; j++){
+    for (var j = 0; j < hoops.length; j++) {
       if (
         player.quaffles[i].x < hoops[j].x + hoops[j].w &&
         player.quaffles[i].x + player.quaffles[i].w > hoops[j].x &&
         player.quaffles[i].y < hoops[j].y + hoops[j].h &&
         player.quaffles[i].y + player.quaffles[i].h > hoops[j].y) {
-     
-        if(hoops[j].scoring){
+
+        if (hoops[j].scoring) {
           console.log("Has sumado un punto");
         }
         hoops[j].scoring = false;
@@ -89,10 +90,27 @@ function checkColisionHoops() {
   }
 }
 
+//Funcion colosión harry con aros
+function checkColisionHoopsHarry() {
+  for (var i = 0; i < hoops.length; i++) {
+    if (
+      hoops[i].x < player.x + player.w &&
+      hoops[i].x + hoops[i].w > player.x &&
+      hoops[i].y < player.y + player.h &&
+      hoops[i].y + hoops[i].h > player.y) {
+
+      if (hoops[i].colosionHarry) {
+        console.log("Harry se ha chocado");
+      }
+      hoops[i].colosionHarry = false;
+    }
+  }
+}
+
 //Función generar aros
 function clearHoops() {
   hoops.forEach((hoop) => {
-    if (hoop.x == 200) {
+    if (hoop.x <= 0) {
       hoops.splice(0, 1);
     }
   });

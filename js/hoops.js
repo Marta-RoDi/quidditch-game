@@ -6,6 +6,7 @@ class Hoops {
     this.x = windowWidth - 200;
     this.y = randomInt(100, windowHeight - 300);
     this.scoring = true;
+    this.colosionHarry = true;
  
     this.img = new Image();
     this.img.src = "images/hoop.png";
