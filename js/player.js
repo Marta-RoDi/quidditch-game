@@ -17,10 +17,13 @@ class Player {
     this.img.frames = 10;
     this.img.frameIndex = 0;
 
+    //Quaffles
+    this.quaffles = [];
+
 
     this.keyState = {
       keyUp: false,
-      keyDown: false
+      keyDown: false,
     }
   }
 
@@ -38,6 +41,12 @@ class Player {
     );
 
     this.animateImg(framesCounter);
+
+    this.quaffles.forEach(function (quaffle) {
+      quaffle.drawQuaffle();
+      quaffle.moveQuaffle();
+
+    });
   }
 
 
@@ -51,6 +60,12 @@ class Player {
     }
   }
 
+  shootquaffle() {
+    var quaffle = new Quaffle(windowWidth, windowHeight, ctx)
+    this.quaffles.push(quaffle);
+  }
+  
+
 
   movePlayer() {
 
@@ -62,6 +77,9 @@ class Player {
       if (e.keyCode === 40) {
         this.keyState.keyDown = true;
       }
+      if (e.keyCode === 32) {
+        this.shootquaffle();
+      }
     })
     document.addEventListener('keyup', (e) => {
       e.preventDefault();
@@ -71,6 +89,7 @@ class Player {
       if (e.keyCode === 40) {
         this.keyState.keyDown = false;
       }
+     
     })
 
 

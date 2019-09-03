@@ -50,7 +50,8 @@ let intervalID = setInterval(() => {
 function drawAll() {
   background.drawBackground()
   player.drawPlayer(counter)
-  quaffle.drawQuaffle()
+  //quaffle.drawQuaffle();
+     
 }
 
 
@@ -58,5 +59,5 @@ function drawAll() {
 function moveAll() {
 background.moveBackground();
 player.movePlayer()
-quaffle.moveQuaffle()
+//quaffle.moveQuaffle();
 }
