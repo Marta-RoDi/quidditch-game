@@ -273,7 +273,7 @@ function drawAll() {
     bludgerDown.drawBludgerDown();
   });
   snitchs.forEach(function (snitch) {
-    snitch.drawSnitch();
+    snitch.drawSnitch(counter);
   });
   scoreboard.drawScoreBg();
   scoreboard.drawScoreTime();
