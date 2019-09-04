@@ -19,6 +19,9 @@ class Hoops {
     if(counter > 3000){
       this.velocity = 10;
     }
+    if(counter > 4000){
+      this.velocity = 15;
+    }
   }
 
   drawHoop(){

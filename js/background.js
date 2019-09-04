@@ -10,8 +10,6 @@ class Background{
     this.y = 0;
 
     this.velocity = 5;
-    
-    
   }
 
   drawBackground(){

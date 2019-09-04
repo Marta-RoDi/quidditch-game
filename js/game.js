@@ -81,6 +81,9 @@ function startGame() {
     if (counter > 3000) {
       background.velocity = 10;
     }
+    if (counter > 4000) {
+      background.velocity = 15;
+    }
 
 
     //pintar y mover
@@ -167,7 +170,7 @@ function checkColisionHoopsQuaffle() {
         if (hoops[j].scoring) {
           points += 10
           //dar mas vida
-          if (points % 60 === 0) {
+          if (points % 50 === 0) {
             life += 10;
           }
         }
