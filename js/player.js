@@ -112,7 +112,7 @@ class Player {
     })
 
 
-    if (this.keyState.keyUp && this.y > 10) {
+    if (this.keyState.keyUp && this.y > 130) {
       this.y -= speed
     }
     if (this.keyState.keyDown && this.y < windowHeight - 180) {

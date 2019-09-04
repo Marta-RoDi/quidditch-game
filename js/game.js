@@ -37,7 +37,7 @@ let time = 0;
 let points = 0;
 
 //Variable puntos
-let life = 100;
+let life = 50;
 
 //Constante velocidad
 const speed = 10;
@@ -57,22 +57,31 @@ function startGame() {
 
 
     //generar aros
-    if (counter % 500 === 0) {
+    if (counter % 300 === 0) {
       generateHoops();
     }
 
     //generar bludgers
-    if (counter % 250 === 0) {
+    if (counter % 350 === 0) {
       generateBludgersTop();
     }
-    if (counter % 250 === 0) {
+    if (counter % 350 === 0) {
       generateBludgersDown();
     }
 
-     //generar snitchs
-     if (counter % 250 === 0) {
+    //generar snitchs
+    if (counter % 2000 === 0) {
       generateSnitchs();
     }
+
+    //Aumentar dificultad
+    if (counter > 2000) {
+      background.velocity = 8;
+    }
+    if (counter > 3000) {
+      background.velocity = 10;
+    }
+
 
     //pintar y mover
     drawAll()
@@ -120,7 +129,7 @@ function resetGame() {
   counter = 0;
   time = 0;
   points = 0;
-  life = 100;
+  life = 50;
   hoops = [];
   bludgersTop = [];
   bludgersDown = [];
@@ -157,6 +166,10 @@ function checkColisionHoopsQuaffle() {
 
         if (hoops[j].scoring) {
           points += 10
+          //dar mas vida
+          if (points % 60 === 0) {
+            life += 10;
+          }
         }
         hoops[j].scoring = false;
       }

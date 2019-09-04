@@ -24,7 +24,7 @@ class Scoreboard {
   drawScoreTime() {
     ctx.font = "24px harry_pregular";
     ctx.fillStyle = "#3c2e1f";
-    ctx.fillText("Tiempo" + ":" + " " + Math.floor(time), windowWidth2 - 50, 55);
+    ctx.fillText("Tiempo" + ":" + " " + Math.floor(counter), windowWidth2 - 50, 55);
   }
 
   drawScorePoints() {

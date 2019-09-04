@@ -3,8 +3,8 @@ class Snitch{
     this.ctx = gameCanvasDOMEl.getContext("2d");
     this.w = 480 / 8;
     this.h = 23;
-    this.x = randomInt(0, windowWidth);
-    this.y = randomInt(0, windowHeight);
+    this.x = windowWidth - 40;
+    this.y = randomInt(120, windowHeight - 40);
     this.velocity = 2;
     this.colosionHarry = true;
     this.img = new Image();

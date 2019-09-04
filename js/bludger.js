@@ -9,6 +9,10 @@ class BludgerTop {
     this.colosionHarry = true;
     this.img = new Image();
     this.img.src = "images/bludger.png";
+
+    if (counter > 2000){
+      this.velocity = 20;
+    }
   }
 
   drawBludgerTop() {
@@ -39,6 +43,15 @@ class BludgerDown {
     this.velocity = 10;
     this.img = new Image();
     this.img.src = "images/bludger.png";
+
+    // Aumentar dificultad
+    if (counter > 2000){
+      this.velocity = 20;
+    }
+
+    if (counter > 3000){
+      this.velocity = 25;
+    }
   }
 
   drawBludgerDown() {
