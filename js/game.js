@@ -7,9 +7,7 @@ const windowWidth2 = windowWidth / 2;
 const windowHeight2 = windowHeight / 2;
 
 function setCanvasDimensions() {
-  // x axis
   gameCanvasDOMEl.setAttribute("width", `${windowWidth}px`);
-  // y axis
   gameCanvasDOMEl.setAttribute("height", `${windowHeight}px`);
 }
 setCanvasDimensions();
@@ -19,39 +17,61 @@ function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-//Variable Aros
+//Variable Array Aros
 let hoops = [];
 
-
-//Variable Bludger
+//Variable Array Bludger
 let bludgersTop = [];
 let bludgersDown = [];
 
 //Variable contador
 let counter = 0;
 
+//Variable tiempo
+let time = 0;
+
+//Variable puntos
+let points = 0;
+
+//Variable puntos
+let life = 10;
+
 //Constante velocidad
 const speed = 10;
 
-
 //Comienzo del juego
 startGame();
+//stop();
 
 function startGame() {
   resetGame();
 }
 
+function stop() {
+  if (life <= 0) {
+    clearInterval(intervalID)
+    if (confirm("test")) {
+      resetGame();
+      startGame();
+    }
+  }
+}
+
 function resetGame() {
   background = new Background(windowWidth, windowHeight, ctx);
   player = new Player(windowWidth, windowHeight, ctx);
-  //bludgerTop = new BludgerTop(windowWidth, windowHeight, ctx);
-  //bludgerDown = new BludgerDown(windowWidth, windowHeight, ctx);
+  scoreboard = new Scoreboard(windowWidth, windowHeight, ctx);
+  counter = 0;
+  time = 0;
+  points = 0;
+  life = 0;
 }
 
 // Set interval
 let intervalID = setInterval(() => {
   ctx.clearRect(0, 0, windowWidth, windowHeight);
   counter++
+  time += 0.01
 
   //generar aros
   if (counter % 500 === 0) {
@@ -82,7 +102,6 @@ let intervalID = setInterval(() => {
   clearBludgerTop();
   clearBludgerDown();
 
-
 }, 1000 / 60);
 
 //Función generar Bludger
@@ -93,7 +112,6 @@ function generateBludgersTop() {
 function generateBludgersDown() {
   bludgersDown.push(new BludgerDown(ctx));
 }
-
 
 //Función generar aros
 function generateHoops() {
@@ -111,7 +129,7 @@ function checkColisionHoopsQuaffle() {
         player.quaffles[i].y + player.quaffles[i].h > hoops[j].y) {
 
         if (hoops[j].scoring) {
-          console.log("Has sumado un punto");
+          points += 10
         }
         hoops[j].scoring = false;
       }
@@ -129,7 +147,7 @@ function checkColisionHoopsHarry() {
       hoops[i].y + hoops[i].h > player.y) {
 
       if (hoops[i].colosionHarry) {
-        console.log("Harry se ha chocado con un aro");
+        life -= 10
       }
       hoops[i].colosionHarry = false;
     }
@@ -146,7 +164,7 @@ function checkColisionBludgerTopHarry() {
       bludgersTop[i].y + bludgersTop[i].h > player.y) {
 
       if (bludgersTop[i].colosionHarry) {
-        console.log("Harry se ha chocado con una bludger top");
+        life -= 10
       }
       bludgersTop[i].colosionHarry = false;
     }
@@ -186,6 +204,7 @@ function clearBludgerTop() {
     }
   });
 }
+
 function clearBludgerDown() {
   bludgersDown.forEach((bludgerDown) => {
     if (bludgerDown.y <= 0) {
@@ -207,9 +226,11 @@ function drawAll() {
   bludgersDown.forEach(function (bludgerDown) {
     bludgerDown.drawBludgerDown();
   });
-
+  scoreboard.drawScoreBg();
+  scoreboard.drawScoreTime();
+  scoreboard.drawScorePoints();
+  scoreboard.drawScoreLife();
 }
-
 
 // Función mover todo
 function moveAll() {
@@ -224,5 +245,4 @@ function moveAll() {
   bludgersDown.forEach(function (bludgerDown) {
     bludgerDown.moveBludgerDown();
   });
-
 }
