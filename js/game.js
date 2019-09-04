@@ -34,24 +34,70 @@ let time = 0;
 let points = 0;
 
 //Variable puntos
-let life = 10;
+let life = 100;
 
 //Constante velocidad
 const speed = 10;
 
+let intervalID = undefined;
+
 //Comienzo del juego
 startGame();
-//stop();
+
 
 function startGame() {
   resetGame();
+  intervalID = setInterval(() => {
+    ctx.clearRect(0, 0, windowWidth, windowHeight);
+    counter++
+    time += 0.01
+
+
+    //generar aros
+    if (counter % 500 === 0) {
+      generateHoops();
+    }
+
+    //generar bludgers
+    if (counter % 250 === 0) {
+      generateBludgersTop();
+    }
+    if (counter % 250 === 0) {
+      generateBludgersDown();
+    }
+
+    //pintar y mover
+    drawAll()
+    moveAll()
+
+    //colisiones
+    checkColisionHoopsQuaffle()
+    checkColisionHoopsHarry()
+    checkColisionBludgerTopHarry()
+    checkColisionBludgerDownHarry()
+
+    //clear
+    clearHoops()
+    player.cleanQuaffle();
+    clearBludgerTop();
+    clearBludgerDown();
+
+    gameOver();
+
+  }, 1000 / 60);
+
+  // gameOver();
 }
 
 function stop() {
+  clearInterval(intervalID)
+}
+
+function gameOver() {
+
   if (life <= 0) {
-    clearInterval(intervalID)
-    if (confirm("test")) {
-      resetGame();
+    if (confirm("¡Ohh! Hufflepuff ha ganado... ¡No puedes permitir esto! Inténtalo de nuevo :)")) {
+      stop();
       startGame();
     }
   }
@@ -64,45 +110,11 @@ function resetGame() {
   counter = 0;
   time = 0;
   points = 0;
-  life = 0;
+  life = 100;
+  hoops = [];
+  bludgersTop = [];
+  bludgersDown = [];
 }
-
-// Set interval
-let intervalID = setInterval(() => {
-  ctx.clearRect(0, 0, windowWidth, windowHeight);
-  counter++
-  time += 0.01
-
-  //generar aros
-  if (counter % 500 === 0) {
-    generateHoops();
-  }
-
-  //generar bludgers
-  if (counter % 250 === 0) {
-    generateBludgersTop();
-  }
-  if (counter % 250 === 0) {
-    generateBludgersDown();
-  }
-
-  //pintar y mover
-  drawAll()
-  moveAll()
-
-  //colisiones
-  checkColisionHoopsQuaffle()
-  checkColisionHoopsHarry()
-  checkColisionBludgerTopHarry()
-  checkColisionBludgerDownHarry()
-
-  //clear
-  clearHoops()
-  player.cleanQuaffle();
-  clearBludgerTop();
-  clearBludgerDown();
-
-}, 1000 / 60);
 
 //Función generar Bludger
 function generateBludgersTop() {
@@ -180,7 +192,7 @@ function checkColisionBludgerDownHarry() {
       bludgersDown[i].y + bludgersDown[i].h > player.y) {
 
       if (bludgersDown[i].colosionHarry) {
-        console.log("Harry se ha chocado con una bludger Down");
+        life -= 10
       }
       bludgersDown[i].colosionHarry = false;
     }
