@@ -24,6 +24,9 @@ let hoops = [];
 let bludgersTop = [];
 let bludgersDown = [];
 
+//Variable Array Snitchs
+let snitchs = [];
+
 //Variable contador
 let counter = 0;
 
@@ -66,6 +69,11 @@ function startGame() {
       generateBludgersDown();
     }
 
+     //generar snitchs
+     if (counter % 250 === 0) {
+      generateSnitchs();
+    }
+
     //pintar y mover
     drawAll()
     moveAll()
@@ -75,6 +83,7 @@ function startGame() {
     checkColisionHoopsHarry()
     checkColisionBludgerTopHarry()
     checkColisionBludgerDownHarry()
+    checkColisionSnitchsHarry()
 
     //clear
     clearHoops()
@@ -107,6 +116,7 @@ function resetGame() {
   background = new Background(windowWidth, windowHeight, ctx);
   player = new Player(windowWidth, windowHeight, ctx);
   scoreboard = new Scoreboard(windowWidth, windowHeight, ctx);
+  snitch = new Snitch(windowWidth, windowHeight, ctx);
   counter = 0;
   time = 0;
   points = 0;
@@ -114,6 +124,7 @@ function resetGame() {
   hoops = [];
   bludgersTop = [];
   bludgersDown = [];
+  snitchs = [];
 }
 
 //Función generar Bludger
@@ -123,6 +134,10 @@ function generateBludgersTop() {
 
 function generateBludgersDown() {
   bludgersDown.push(new BludgerDown(ctx));
+}
+
+function generateSnitchs() {
+  snitchs.push(new Snitch(ctx));
 }
 
 //Función generar aros
@@ -199,6 +214,25 @@ function checkColisionBludgerDownHarry() {
   }
 }
 
+
+//Funcion colosión harry con Bludgers
+function checkColisionSnitchsHarry() {
+  for (var i = 0; i < snitchs.length; i++) {
+    if (
+      snitchs[i].x < player.x + player.w &&
+      snitchs[i].x + snitchs[i].w > player.x &&
+      snitchs[i].y < player.y + player.h &&
+      snitchs[i].y + snitchs[i].h > player.y) {
+
+      if (snitchs[i].colosionHarry) {
+        life += 10
+      }
+      snitchs[i].colosionHarry = false;
+      snitchs.splice(i, 1)
+    }
+  }
+}
+
 //Función limpiar aros
 function clearHoops() {
   hoops.forEach((hoop) => {
@@ -238,6 +272,9 @@ function drawAll() {
   bludgersDown.forEach(function (bludgerDown) {
     bludgerDown.drawBludgerDown();
   });
+  snitchs.forEach(function (snitch) {
+    snitch.drawSnitch();
+  });
   scoreboard.drawScoreBg();
   scoreboard.drawScoreTime();
   scoreboard.drawScorePoints();
@@ -256,5 +293,8 @@ function moveAll() {
   });
   bludgersDown.forEach(function (bludgerDown) {
     bludgerDown.moveBludgerDown();
+  });
+  snitchs.forEach(function (snitch) {
+    snitch.moveSnitch();
   });
 }

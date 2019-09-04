@@ -25,12 +25,7 @@ class BludgerTop {
     this.y += this.velocity;
   }
 
-  createBludgerTop() {
-    BludgersTop.forEach(function (BluderTop) {
-      BluderTop.drawBluderTop();
-      BluderTop.moveBludgerTop();
-    });
-  }
+
 }
 
 class BludgerDown {
@@ -60,11 +55,5 @@ class BludgerDown {
     this.y -= this.velocity;
   }
 
-  createBludgerDown() {
-    BludgersDown.forEach(function (BluderDown) {
-      BluderDown.drawBluderDown();
-      BluderDown.moveBludgerDown();
-    });
-  }
 
 }
