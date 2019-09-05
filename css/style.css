@@ -150,5 +150,6 @@ body {
 
 canvas {
   background: white;
+  display: none;
 }
 

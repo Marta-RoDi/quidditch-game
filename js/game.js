@@ -40,9 +40,16 @@ let points = 0;
 let life = 50;
 
 //Constante velocidad
-const speed = 10;
+const speed = 8;
 
 let intervalID = undefined;
+
+
+//Sonidos
+let soundQuaffle = new Audio("sounds/quaffle.wav");
+let soundImpact = new Audio("sounds/impact.wav");
+let soundSnitch = new Audio("sounds/snitch.wav");
+let soundGame = new Audio("sounds/team-quidditch.wav");
 
 //Comienzo del juego
 startGame();
@@ -74,16 +81,7 @@ function startGame() {
       generateSnitchs();
     }
 
-    //Aumentar dificultad
-    if (counter > 2000) {
-      background.velocity = 8;
-    }
-    if (counter > 3000) {
-      background.velocity = 10;
-    }
-    if (counter > 4000) {
-      background.velocity = 15;
-    }
+    
 
 
     //pintar y mover
@@ -103,7 +101,13 @@ function startGame() {
     clearBludgerTop();
     clearBludgerDown();
 
+
+    //Subir de nivel
+    background.moreDificultBackground();
+   
+    //soundGame.play();
     gameOver();
+   
 
   }, 1000 / 60);
 
@@ -169,6 +173,7 @@ function checkColisionHoopsQuaffle() {
 
         if (hoops[j].scoring) {
           points += 10
+          soundQuaffle.play();
           //dar mas vida
           if (points % 50 === 0) {
             life += 10;
@@ -191,6 +196,7 @@ function checkColisionHoopsHarry() {
 
       if (hoops[i].colosionHarry) {
         life -= 10
+        soundImpact.play();
       }
       hoops[i].colosionHarry = false;
     }
@@ -208,6 +214,7 @@ function checkColisionBludgerTopHarry() {
 
       if (bludgersTop[i].colosionHarry) {
         life -= 10
+        soundImpact.play();
       }
       bludgersTop[i].colosionHarry = false;
     }
@@ -224,6 +231,7 @@ function checkColisionBludgerDownHarry() {
 
       if (bludgersDown[i].colosionHarry) {
         life -= 10
+        soundImpact.play();
       }
       bludgersDown[i].colosionHarry = false;
     }
@@ -242,6 +250,7 @@ function checkColisionSnitchsHarry() {
 
       if (snitchs[i].colosionHarry) {
         life += 10
+        soundSnitch.play();
       }
       snitchs[i].colosionHarry = false;
       snitchs.splice(i, 1)
