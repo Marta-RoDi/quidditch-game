@@ -52,7 +52,7 @@ let soundSnitch = new Audio("sounds/snitch.wav");
 let soundGame = new Audio("sounds/team-quidditch.wav");
 
 //Comienzo del juego
-startGame();
+
 
 
 function startGame() {
@@ -105,9 +105,8 @@ function startGame() {
     //Subir de nivel
     background.moreDificultBackground();
    
-    //soundGame.play();
     gameOver();
-   
+    soundGame.play();
 
   }, 1000 / 60);
 
@@ -116,6 +115,7 @@ function startGame() {
 
 function stop() {
   clearInterval(intervalID)
+  soundGame.currentTime = 0;
 }
 
 function gameOver() {
