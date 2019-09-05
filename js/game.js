@@ -42,6 +42,9 @@ let life = 50;
 //Constante velocidad
 const speed = 8;
 
+//Pausa
+let pause = false;
+
 let intervalID = undefined;
 
 
@@ -51,13 +54,13 @@ let soundImpact = new Audio("sounds/impact.wav");
 let soundSnitch = new Audio("sounds/snitch.wav");
 let soundGame = new Audio("sounds/team-quidditch.wav");
 
-//Comienzo del juego
-
 
 
 function startGame() {
+
   resetGame();
   intervalID = setInterval(() => {
+    if (pause) return;
     ctx.clearRect(0, 0, windowWidth, windowHeight);
     counter++
     time += 0.01
@@ -81,9 +84,6 @@ function startGame() {
       generateSnitchs();
     }
 
-    
-
-
     //pintar y mover
     drawAll()
     moveAll()
@@ -104,13 +104,11 @@ function startGame() {
 
     //Subir de nivel
     background.moreDificultBackground();
-   
+
     gameOver();
     soundGame.play();
 
   }, 1000 / 60);
-
-  // gameOver();
 }
 
 function stop() {
@@ -120,16 +118,16 @@ function stop() {
 
 function gameOver() {
   if (life <= 0) {
-      stop();
-      ctx.clearRect(0, 0, windowWidth, windowHeight);
-      screen.drawGameover();
-      document.onkeydown = function (event) {
-        switch (event.keyCode) {
-          case 13:
-            startGame();
-            break;
-        }
+    stop();
+    ctx.clearRect(0, 0, windowWidth, windowHeight);
+    screen.drawGameover();
+    document.onkeydown = function (event) {
+      switch (event.keyCode) {
+        case 13:
+          startGame();
+          break;
       }
+    }
   }
 }
 
@@ -329,3 +327,13 @@ function moveAll() {
     snitch.moveSnitch();
   });
 }
+
+//Pausa
+window.onkeydown = function (e) {
+  switch (e.keyCode) {
+    case 82:
+      pause = !pause;
+      console.log("pausa")
+      break;
+  }
+};
