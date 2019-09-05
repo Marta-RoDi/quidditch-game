@@ -10,7 +10,7 @@ class Hoops {
 
     this.img = new Image();
     this.img.src = "images/hoop.png";
-    this.velocity = 5;
+    this.velocity = 7;
 
 
     if (counter > 2000) {
