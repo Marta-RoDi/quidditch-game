@@ -119,17 +119,23 @@ function stop() {
 }
 
 function gameOver() {
-
   if (life <= 0) {
-    if (confirm("¡Ohh! Hufflepuff ha ganado... ¡No puedes permitir esto! Inténtalo de nuevo :)")) {
       stop();
-      startGame();
-    }
+      ctx.clearRect(0, 0, windowWidth, windowHeight);
+      screen.drawGameover();
+      document.onkeydown = function (event) {
+        switch (event.keyCode) {
+          case 13:
+            startGame();
+            break;
+        }
+      }
   }
 }
 
 function resetGame() {
   background = new Background(windowWidth, windowHeight, ctx);
+  screen = new Screens(windowWidth, windowHeight, ctx);
   player = new Player(windowWidth, windowHeight, ctx);
   scoreboard = new Scoreboard(windowWidth, windowHeight, ctx);
   snitch = new Snitch(windowWidth, windowHeight, ctx);
