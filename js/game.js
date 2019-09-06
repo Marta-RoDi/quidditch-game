@@ -47,7 +47,6 @@ let pause = false;
 
 let intervalID = undefined;
 
-
 //Sonidos
 let soundQuaffle = new Audio("sounds/quaffle.wav");
 let soundImpact = new Audio("sounds/impact.wav");
@@ -145,6 +144,7 @@ function resetGame() {
   bludgersTop = [];
   bludgersDown = [];
   snitchs = [];
+  soundGame.play();
 }
 
 //Función generar Bludger
@@ -333,7 +333,11 @@ window.onkeydown = function (e) {
   switch (e.keyCode) {
     case 82:
       pause = !pause;
-      console.log("pausa")
+      if(pause){
+        soundGame.pause();
+      }else{
+        soundGame.play();
+      }
       break;
   }
 };
